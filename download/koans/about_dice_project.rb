@@ -5,6 +5,22 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # class DiceSet
 #   code ...
 # end
+class DiceSet
+  attr_reader :values
+  def initialize
+    @values=[]
+  end
+  def roll(count)
+    temp_values=[] # need a new array here, because the attribute accessor is pass by reference
+    count.times do
+      val=rand(1..6)
+      temp_values<<val
+    end
+    @values=temp_values
+#    puts count
+#    puts @values.to_s
+  end
+end
 
 class AboutDiceProject < Neo::Koan
   def test_can_create_a_dice_set
@@ -36,9 +52,12 @@ class AboutDiceProject < Neo::Koan
 
     dice.roll(5)
     first_time = dice.values
+  #  puts "first time " + first_time.to_s
 
     dice.roll(5)
     second_time = dice.values
+  #  puts "second time " + second_time.to_s
+  #  puts "first time now " + first_time.to_s
 
     assert_not_equal first_time, second_time,
       "Two rolls should not be equal"
